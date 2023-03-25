@@ -1,12 +1,13 @@
-import TestTokenAbi from "@/data/TestTokenAbi.json";
+import TestTokenAbi from "../data/TestTokenAbi.json";
 import {
     bridgeDataConfig,
     chainDomains,
     subgraphURIs
-} from "@/data/config";
-import destinationAbi from "@/data/destinationAbi.json";
-import originAbi from "@/data/originAbi.json";
-import { formatFlowrate } from "@/helpers/formatHelper";
+} from "../data/config";
+import xStreamContractAbi from "../data/XStreamPoolAbi.json";
+import destinationAbi from "../data/destinationAbi.json";
+import originAbi from "../data/originAbi.json";
+import { formatFlowrate } from "/helpers/formatHelper";
 import {
     fetchTokenStatistic,
     fetchxStreamInflow,
@@ -105,10 +106,9 @@ const useXStream = () => {
         }
 
         const flowRate = calculateFlowRate(amount);
-        const contractAbi = chain?.id == 5 ? originAbi : destinationAbi;
-        const originContract = new ethers.Contract(
+        const xStreamContract = new ethers.Contract(
           bridgeDataConfig[chain?.id].xstreamContractAddress,
-          contractAbi,
+          xStreamContractAbi,
           signer
         );
 
@@ -116,7 +116,7 @@ const useXStream = () => {
         let relayerFee;
 
         toast.info("Creating your XStream...");
-        const transaction = await originContract._sendFlowMessage(
+        const transaction = await xStreamContract._sendFlowMessage(
           //_sendFlowMessage
           "1", //streamActionType
           receipient, //receiver
