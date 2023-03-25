@@ -10,12 +10,23 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.10",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@headlessui/react": "^1.7.10",
+    "@heroicons/react": "^2.0.15",
+    "@mui/material": "^5.11.14",
+    "@mui/system": "^5.11.14",
+    "@mui/x-date-pickers": "^6.0.3",
+    "@next/font": "^13.1.1",
+    "@rainbow-me/rainbowkit": "^0.11.0",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "ethers": "^5.7.2",
+    "graphql": "^16.6.0",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-toastify": "^9.1.2",
     "wagmi": "^0.11.7"
   }
 }
