@@ -5,15 +5,13 @@ import {
     subgraphURIs
 } from "../data/config";
 import xStreamContractAbi from "../data/XStreamPoolAbi.json";
-import destinationAbi from "../data/destinationAbi.json";
-import originAbi from "../data/originAbi.json";
 import { formatFlowrate } from "/helpers/formatHelper";
 import {
     fetchTokenStatistic,
     fetchxStreamInflow,
     fetchxStreamOutflow,
     superfluidInflowStreamData,
-} from "@/helpers/xStreamSubgraph";
+} from "../helpers/xStreamSubgraph";
 import { Framework } from "@superfluid-finance/sdk-core";
 import { fetchBalance, getNetwork } from "@wagmi/core";
 import dayjs from "dayjs";
