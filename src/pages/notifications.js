@@ -1,11 +1,11 @@
-import NotificationTemplate from "@/components/NotificationTemplate";
-import SideBar from "@/components/SideBar";
-import { subgraphURIs } from "@/data/config";
-import { AuthContext } from "@/providers/AuthProvider";
+import NotificationTemplate from "../../components/NotificationTemplate";
+import SideBar from "../../components/SideBar";
+import { subgraphURIs } from "../../data/config";
+import { AuthContext } from "../../providers/AuthProvider";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 import { useContext } from "react";
-import logowhite from "../image/LogoWhite.png";
+import logowhite from "../../image/LogoWhite.png";
 
 const Notifications = () => {
     const authContext = useContext(AuthContext);
