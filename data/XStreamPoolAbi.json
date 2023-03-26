@@ -346,17 +346,17 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "streamActionType",
+        "name": "_streamActionType",
         "type": "uint256"
       },
       {
         "internalType": "address",
-        "name": "receiver",
+        "name": "_receiver",
         "type": "address"
       },
       {
         "internalType": "int96",
-        "name": "flowRate",
+        "name": "_flowRate",
         "type": "int96"
       },
       {
@@ -408,8 +408,13 @@
         "type": "int96[]"
       },
       {
+        "internalType": "uint96[]",
+        "name": "costs",
+        "type": "uint96[]"
+      },
+      {
         "internalType": "uint256",
-        "name": "streamActionType",
+        "name": "_streamActionType",
         "type": "uint256"
       },
       {
@@ -420,11 +425,6 @@
       {
         "internalType": "uint256",
         "name": "slippage",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "cost",
         "type": "uint256"
       },
       {
@@ -906,22 +906,22 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "account",
+        "name": "_account",
         "type": "address"
       },
       {
         "internalType": "int96",
-        "name": "flowRate",
+        "name": "_flowRate",
         "type": "int96"
       },
       {
         "internalType": "uint256",
-        "name": "amount",
+        "name": "_amount",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "startTime",
+        "name": "_startTime",
         "type": "uint256"
       }
     ],
