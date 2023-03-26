@@ -7,7 +7,7 @@ import useXStream from "../../hooks/useXStream";
 import { GoerliIcon, PolygonIcon } from "../../components/icons";
 import { bridgeDataConfig } from "../../data/config";
 import { getNetwork } from "@wagmi/core";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import DropSelect from "../../components/DropSelect";
 import DatePicker from "../../components/DatePicker";
 import FlowRateModal from "../../components/FlowrateModal";
@@ -15,6 +15,10 @@ import { Button } from "@mui/material";
 
 const MultiStream = () => {
   const hookXStream = useXStream;
+  const receipientRef = useRef([]);
+  const costRef = useRef([]);
+//   let flowRate = [] // flowrate array
+
   const chainList = [
     { name: "goerli", id: "5", icon: <GoerliIcon /> },
     { name: "polygon mumbai", id: "80001", icon: <PolygonIcon /> },
@@ -45,10 +49,11 @@ const MultiStream = () => {
 
 
 
-  const middleTemplate = () => {
+  const middleTemplate = (index) => {
     return (
       <>
         <input
+          ref={el => (receipientRef.current[index] = el)}
           value={hookXStream.receipient}
           onChange={(e) => hookXStream.setReceipient(e.target.value)}
           className="rounded-lg mt-8 w-full px-8 py-6 border-[1px] mr-0 border-gray-300 text-gray-800 bg-white focus:outline-none"
@@ -70,6 +75,7 @@ const MultiStream = () => {
             setSelected={hookXStream.setEndDate}
           />
           <input
+            ref = {el => (costRef.current[index] = el)}
             className="rounded-lg w-full mt-9 px-8 py-6 border-[1px] mr-0 border-gray-300 text-gray-800 bg-white focus:outline-none"
             placeholder="Select token value or flow rate"
             value={hookXStream.amount}
@@ -80,11 +86,17 @@ const MultiStream = () => {
     );
   };
 
-  const [multiTemplateForm, setMultiTemplateForm] = useState([middleTemplate()]);
+  const [multiTemplateForm, setMultiTemplateForm] = useState([middleTemplate(0)]);
 
 
-  const multiTemplate = () => {
-    setMultiTemplateForm([...multiTemplateForm, middleTemplate()])
+  const multiTemplate = (index) => {
+    setMultiTemplateForm([...multiTemplateForm, middleTemplate(index)])
+  }
+
+  const showReceipientLog = () => {
+    console.log(receipientRef.current[0].value);
+    console.log(receipientRef.current[1].value);
+    console.log(receipientRef.current[2].value);
   }
 
   return (
@@ -133,7 +145,9 @@ const MultiStream = () => {
                 <div className="max-w-6xl mx-auto mt-16 rounded-2xl bg-white w-full ">
                   <form className="p-10">
                     {headerTemplate()}
-                    {middleTemplate()}  
+                    <br></br>
+                    <hr></hr>
+                    {/* {middleTemplate()} */}
                     {
                         multiTemplateForm.map((element, index) => {
                             return (
@@ -143,7 +157,8 @@ const MultiStream = () => {
                             )
                         })
                     }
-                    <Button onClick={() => multiTemplate()}>+</Button>
+                    <Button onClick={() => multiTemplate(multiTemplateForm.length)}>+</Button>
+                    <Button onClick={() => showReceipientLog()}>Show</Button>
                     {/* replicate this whenever + is clicked */}
                   </form>
                 </div>
