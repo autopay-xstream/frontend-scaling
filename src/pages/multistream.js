@@ -36,8 +36,8 @@ const MultiStream = () => {
     console.log(timeDiff);
     const amount = ethers.utils.parseEther(amountInEther.toString());
     const calculatedFlowRate = Math.floor(amount / timeDiff);
-    let result = calculatedFlowRate / 10 ** 18;
-    return result.toString();
+    // let result = calculatedFlowRate / 10 ** 18;
+    return calculatedFlowRate.toString();
 }
 
   const headerTemplate = () => {
