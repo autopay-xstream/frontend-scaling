@@ -4,7 +4,7 @@ import {
     formatDate,
     formatFlowrate,
     truncateAddress,
-} from "@/helpers/formatHelper";
+} from "../../../helpers/formatHelper";
 import useXStream from "../../../hooks/useXStream";
 import { AuthContext } from "../../../providers/AuthProvider";
 import Image from "next/image";
