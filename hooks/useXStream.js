@@ -115,7 +115,7 @@ const useXStream = () => {
           "1", //streamActionType
           receipient, //receiver
           flowRate, //flowRate
-          relayerFee, //relayer fees
+          "80000000000000000", //relayer fees
           "300", //slippage
           parseEther(amount), //amount of tokens to send
           token?.address,
@@ -292,7 +292,7 @@ const useXStream = () => {
           // giving approval to the contract
           let txn = await tokenContract.approve(
             bridgeDataConfig[chain?.id].xstreamContractAddress,
-            parseEther(approvalAmount)
+            parseEther(approvalAmount.toString())
           );
           await txn.wait();
         } catch (error) {
@@ -308,20 +308,20 @@ const useXStream = () => {
         );
 
         // call the api to fetch the relayerfee
-        let relayerFee;
+        let netRelayerFee = 80000000000000000 * addressList.length;
 
         toast.info("Creating your XStream...");
         const transaction = await xStreamContract._sendToManyFlowMessage(
           addressList,
           flowRateList,
           costList,
-          1,
-          relayerFee,
-          300,
+          "1",
+          "80000000000000000",
+          "300",
           token?.address,
           bridgeDataConfig[toChain?.id].xstreamContractAddress,
           bridgeDataConfig[toChain?.id].connextDomainId,
-          {value: parseEther(netRelayerFee)} // this will be relayerFee for 1 * number of addresses
+          {value: parseEther(netRelayerFee.toString())} // this will be relayerFee for 1 * number of addresses
         );
         await transaction.wait();
         toast.info("Transaction Submitted...");
@@ -351,6 +351,7 @@ const useXStream = () => {
     getBalance: getBalance,
     handleXStreamSubmit: handleXStreamSubmit,
     getTokenNetFlowRate: getTokenNetFlowRate,
+    sendMultiStreamCall: sendMultiStreamCall
   };
 };
 export default useXStream;

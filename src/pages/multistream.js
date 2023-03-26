@@ -107,16 +107,24 @@ const MultiStream = () => {
   const callMultiStream = () => {
     let flowRateArray = [];
     let costArray = [];
-    let receiverArray = []
+    let receiverArray = [];
+    let approvalAmount = 0;
     for (const element of costRef.current) {
         const flowRate = calculateFlowRate(element.value);
         flowRateArray.push(flowRate);
         costArray.push(element.value);
+        approvalAmount = approvalAmount + Number(element.value);
     }
     for (const address of receipientRef.current) {
         receiverArray.push(address.value);
     }
-    console.log(flowRateArray, costArray, receiverArray);
+    console.log(flowRateArray, costArray, receiverArray, approvalAmount);
+    hookXStream.sendMultiStreamCall(
+      receiverArray,
+      costArray,
+      flowRateArray,
+      approvalAmount
+    )
   }
 
   return (
@@ -167,7 +175,6 @@ const MultiStream = () => {
                     {headerTemplate()}
                     <br></br>
                     <hr></hr>
-                    {/* {middleTemplate()} */}
                     {
                         multiTemplateForm.map((element, index) => {
                             return (
