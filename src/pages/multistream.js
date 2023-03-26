@@ -1,4 +1,5 @@
 import SendXStream from "../../components/SendXStream";
+import { ethers } from "ethers";
 import SideBar from "../../components/SideBar";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
@@ -14,7 +15,7 @@ import FlowRateModal from "../../components/FlowrateModal";
 import { Button } from "@mui/material";
 
 const MultiStream = () => {
-  const hookXStream = useXStream;
+  const hookXStream = useXStream();
   const receipientRef = useRef([]);
   const costRef = useRef([]);
 //   let flowRate = [] // flowrate array
@@ -27,6 +28,16 @@ const MultiStream = () => {
   const [selectedType, setSelectedType] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const { chain } = getNetwork();
+
+  const calculateFlowRate = (amountInEther) => {
+    const now = new Date();
+    const endD = new Date(hookXStream.endDate);
+    const timeDiff = Math.abs(endD.getTime() - now.getTime());
+    console.log(timeDiff);
+    const amount = ethers.utils.parseEther(amountInEther.toString());
+    const calculatedFlowRate = Math.floor(amount / timeDiff);
+    return calculatedFlowRate / 10 ** 18;
+}
 
   const headerTemplate = () => {
     return (
@@ -47,15 +58,11 @@ const MultiStream = () => {
     );
   };
 
-
-
   const middleTemplate = (index) => {
     return (
       <>
         <input
           ref={el => (receipientRef.current[index] = el)}
-          value={hookXStream.receipient}
-          onChange={(e) => hookXStream.setReceipient(e.target.value)}
           className="rounded-lg mt-8 w-full px-8 py-6 border-[1px] mr-0 border-gray-300 text-gray-800 bg-white focus:outline-none"
           placeholder="Enter  receipient address or ENS"
         />
@@ -78,8 +85,6 @@ const MultiStream = () => {
             ref = {el => (costRef.current[index] = el)}
             className="rounded-lg w-full mt-9 px-8 py-6 border-[1px] mr-0 border-gray-300 text-gray-800 bg-white focus:outline-none"
             placeholder="Select token value or flow rate"
-            value={hookXStream.amount}
-            onChange={(e) => hookXStream.setAmount(e.target.value)}
           />
         </div>
       </>
@@ -94,9 +99,24 @@ const MultiStream = () => {
   }
 
   const showReceipientLog = () => {
-    console.log(receipientRef.current[0].value);
-    console.log(receipientRef.current[1].value);
-    console.log(receipientRef.current[2].value);
+    console.log(receipientRef.current);
+    // console.log(receipientRef.current[1]);
+    // console.log(receipientRef.current[2);
+  }
+
+  const callMultiStream = () => {
+    let flowRateArray = [];
+    let costArray = [];
+    let receiverArray = []
+    for (const element of costRef.current) {
+        const flowRate = calculateFlowRate(element.value);
+        flowRateArray.push(flowRate);
+        costArray.push(element.value);
+    }
+    for (const address of receipientRef.current) {
+        receiverArray.push(address.value);
+    }
+    console.log(flowRateArray, costArray, receiverArray);
   }
 
   return (
@@ -159,6 +179,7 @@ const MultiStream = () => {
                     }
                     <Button onClick={() => multiTemplate(multiTemplateForm.length)}>+</Button>
                     <Button onClick={() => showReceipientLog()}>Show</Button>
+                    <Button onClick={() => callMultiStream()}>Send</Button>
                     {/* replicate this whenever + is clicked */}
                   </form>
                 </div>

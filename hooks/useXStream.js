@@ -1,16 +1,12 @@
 import TestTokenAbi from "../data/TestTokenAbi.json";
-import {
-    bridgeDataConfig,
-    chainDomains,
-    subgraphURIs
-} from "../data/config";
+import { bridgeDataConfig, chainDomains, subgraphURIs } from "../data/config";
 import xStreamContractAbi from "../data/XStreamPoolAbi.json";
 import { formatFlowrate } from "/helpers/formatHelper";
 import {
-    fetchTokenStatistic,
-    fetchxStreamInflow,
-    fetchxStreamOutflow,
-    superfluidInflowStreamData,
+  fetchTokenStatistic,
+  fetchxStreamInflow,
+  fetchxStreamOutflow,
+  superfluidInflowStreamData,
 } from "../helpers/xStreamSubgraph";
 import { Framework } from "@superfluid-finance/sdk-core";
 import { fetchBalance, getNetwork } from "@wagmi/core";
@@ -277,6 +273,64 @@ const useXStream = () => {
     setTestFlowRate(flowRate);
   };
 
+  const sendMultiStreamCall = async (addressList, costList, flowRateList, approvalAmount) => {
+    try {
+      if (typeof window.ethereum !== "undefined") {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+
+        let tokenContract;
+
+        // currently on Goerli Testnet
+        tokenContract = new ethers.Contract(
+          token?.address,
+          TestTokenAbi,
+          signer
+        );
+
+        try {
+          // giving approval to the contract
+          let txn = await tokenContract.approve(
+            bridgeDataConfig[chain?.id].xstreamContractAddress,
+            parseEther(approvalAmount)
+          );
+          await txn.wait();
+        } catch (error) {
+          console.log("Error in approving tokens ", error);
+          return;
+        }
+
+        // const flowRate = calculateFlowRate(amount);
+        const xStreamContract = new ethers.Contract(
+          bridgeDataConfig[chain?.id].xstreamContractAddress,
+          xStreamContractAbi,
+          signer
+        );
+
+        // call the api to fetch the relayerfee
+        let relayerFee;
+
+        toast.info("Creating your XStream...");
+        const transaction = await xStreamContract._sendToManyFlowMessage(
+          addressList,
+          flowRateList,
+          costList,
+          1,
+          relayerFee,
+          300,
+          token?.address,
+          bridgeDataConfig[toChain?.id].xstreamContractAddress,
+          bridgeDataConfig[toChain?.id].connextDomainId,
+          {value: parseEther(netRelayerFee)} // this will be relayerFee for 1 * number of addresses
+        );
+        await transaction.wait();
+        toast.info("Transaction Submitted...");
+      }
+    } catch (error) {
+      console.log("Error in sending multistream ", error);
+    }
+  };
+
   return {
     balance: balance,
     userEvents: userEvents,
@@ -298,6 +352,5 @@ const useXStream = () => {
     handleXStreamSubmit: handleXStreamSubmit,
     getTokenNetFlowRate: getTokenNetFlowRate,
   };
-  
 };
 export default useXStream;
