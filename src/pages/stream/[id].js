@@ -1,16 +1,16 @@
-import { bridgeDataConfig } from "@/data/config";
+import { bridgeDataConfig } from "../../../data/config";
 import {
     calculateFormatAmountStreamed,
     formatDate,
     formatFlowrate,
     truncateAddress,
 } from "@/helpers/formatHelper";
-import useXStream from "@/hooks/xStream/useXStream";
-import { AuthContext } from "@/providers/AuthProvider";
+import useXStream from "../../../hooks/useXStream";
+import { AuthContext } from "../../../providers/AuthProvider";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useRef, useState } from "react";
-import gif from "../../public/stream-loop.gif";
+import gif from "../../../public/stream-loop.gif";
 
 const Stream = (props) => {
   const authContext = useContext(AuthContext);
