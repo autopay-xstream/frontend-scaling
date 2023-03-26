@@ -11,6 +11,7 @@ import { useState } from "react";
 import DropSelect from "../../components/DropSelect";
 import DatePicker from "../../components/DatePicker";
 import FlowRateModal from "../../components/FlowrateModal";
+import { Button } from "@mui/material";
 
 const MultiStream = () => {
   const hookXStream = useXStream;
@@ -41,6 +42,8 @@ const MultiStream = () => {
       </div>
     );
   };
+
+
 
   const middleTemplate = () => {
     return (
@@ -76,6 +79,14 @@ const MultiStream = () => {
       </>
     );
   };
+
+  const [multiTemplateForm, setMultiTemplateForm] = useState([middleTemplate()]);
+
+
+  const multiTemplate = () => {
+    setMultiTemplateForm([...multiTemplateForm, middleTemplate()])
+  }
+
   return (
     <>
       <main className="main font-poppins">
@@ -122,7 +133,18 @@ const MultiStream = () => {
                 <div className="max-w-6xl mx-auto mt-16 rounded-2xl bg-white w-full ">
                   <form className="p-10">
                     {headerTemplate()}
-                    {middleTemplate()}
+                    {middleTemplate()}  
+                    {
+                        multiTemplateForm.map((element, index) => {
+                            return (
+                                <>
+                                {element}   
+                                </>
+                            )
+                        })
+                    }
+                    <Button onClick={() => multiTemplate()}>+</Button>
+                    {/* replicate this whenever + is clicked */}
                   </form>
                 </div>
               </div>
