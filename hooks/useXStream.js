@@ -308,7 +308,7 @@ const useXStream = () => {
         );
 
         // call the api to fetch the relayerfee
-        let netRelayerFee = 80000000000000000 * addressList.length;
+        let netRelayerFee = 0.08 * addressList.length;
 
         toast.info("Creating your XStream...");
         const transaction = await xStreamContract._sendToManyFlowMessage(
