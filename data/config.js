@@ -71,11 +71,11 @@ export const bridgeDataConfig = {
   
   export const subgraphURIs = {
     "xstream": {
-      5: "https://api.thegraph.com/subgraphs/name/aditya172926/scaling_xstream_goerli",
-      1735353714: "https://api.thegraph.com/subgraphs/name/aditya172926/scaling_xstream_goerli", // connext domain goerli
+      5: "https://api.thegraph.com/subgraphs/name/aditya172926/xstream",
+      1735353714: "https://api.thegraph.com/subgraphs/name/aditya172926/xstream", // connext domain goerli
   
-      80001: "https://api.thegraph.com/subgraphs/name/aditya172926/scalingxstream",
-      9991: "https://api.thegraph.com/subgraphs/name/aditya172926/scalingxstream", // connext domain mumbai
+      80001: "https://api.thegraph.com/subgraphs/name/aditya172926/xstreammumbai",
+      9991: "https://api.thegraph.com/subgraphs/name/aditya172926/xstreammumbai", // connext domain mumbai
     },
     "superfluid": {
       5: "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-goerli",
